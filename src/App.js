@@ -1,3 +1,5 @@
+import React from 'react';
+
 import "./App.css";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { Home, Feed, Dashboard, Create } from "./pages"
@@ -11,8 +13,7 @@ function App() {
           <Route path="/employer/dashboard" element={<Dashboard />}/>
           <Route path="/employer/create" element={<Create />}/>
           </Route>
-          <Route path="/employee/feed" element={<Feed />}/>
-      </Routes>
+          <Route path="/employee/feed" element={<Feed />}/>      </Routes>
     </BrowserRouter>
   );
 }

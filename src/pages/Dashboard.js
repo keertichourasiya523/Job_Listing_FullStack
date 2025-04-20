@@ -1,37 +1,25 @@
-import * as React from 'react';
-import {Box ,Tab, Typography } from '@mui/material';
-import TabContext from '@mui/lab/TabContext';
-import TabList from '@mui/lab/TabList';
-import TabPanel from '@mui/lab/TabPanel';
-import { Button } from "@mui/material"
-import { Link } from "react-router-dom"
-import Create from './Create';
+import React from 'react';
+import { Box, Button, Typography } from '@mui/material';
+import { Link } from 'react-router-dom';
 
-
-
-export default function Home() {
-  const [value, setValue] = React.useState('1');
-  const handleChange = (event, newValue) => {
-    setValue(newValue);
-  };
-
-
+const Dashboard = () => {
   return (
-    <>
-    <Box sx={{ display:"flex", flexDirection:"row", justifyContent:"center"}}>
-    <Typography variant='h3'sx={{ margin:"2%"}} align='center'>EMPLOYER DASHBOARD</Typography>
-    <Button sx={{ margin:"2% 3%"}} variant="outlined"><Link to="/">Home</Link></Button>
+    <Box sx={{ padding: '3%', maxWidth: '800px', margin: 'auto' }}>
+      <Typography variant="h4" sx={{ marginBottom: '2%' }} align="center">
+        Employer Dashboard
+      </Typography>
+      <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+        <Button
+          variant="outlined"
+          sx={{ marginBottom: '1rem', width: '50%' }}
+          component={Link} // Use Link as the component for Button
+          to="/employer/create" // Specify the link destination
+        >
+          Create Job Post
+        </Button>
+      </Box>
     </Box>
-    <Box sx={{ width: '100%', typography: 'body1' }}>
-      <TabContext value={value}>
-        <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
-          <TabList onChange={handleChange} aria-label="lab API tabs example">
-            <Tab label="Create Post" value="1" />
-          </TabList>
-        </Box>
-        <TabPanel value="1"><Create /></TabPanel>
-      </TabContext>
-    </Box>
-    </>
   );
-}
+};
+
+export default Dashboard;

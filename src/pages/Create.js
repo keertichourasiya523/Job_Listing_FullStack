@@ -1,135 +1,80 @@
 import React, { useState } from "react";
-import {
-  Typography,
-  TextField,
-  Button,
-  Paper,
-  Box,
-} from "@mui/material";
 import { useNavigate } from "react-router-dom";
-const initial = { profile: "", exp: 0, techs: [], desc:"" };
+import { Paper, Typography, TextField, Button, FormGroup, FormControlLabel, Checkbox } from "@mui/material"; // Import missing components
 
 const Create = () => {
-    const skillSet = [
-        {
-          name: "Javascript"
-        },
-        {
-          name: "Java"
-        },
-        {
-          name: "Python"
-        },
-        {
-          name: "Django"
-        },
-        {
-          name: "Rust"
-        }
-      ];
+  const skillSet = ["JavaScript", "Java", "Python", "Django", "Rust"];
   const navigate = useNavigate();
-  const [form, setForm] = useState(initial);
+  const [form, setForm] = useState({ profile: "", exp: 0, techs: [], desc: "" });
 
   const handleSubmit = (e) => {
     e.preventDefault();
     fetch("http://localhost:8080/post", {
-      method: "POST", // or 'PUT'
+      method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify(form),
     })
-      .then((response) => console.log(response))
-      .then((data) => {
-        console.log("Success:", data);
-      })
-      .catch((error) => {
-        console.error("Error:", error);
-      });
-      navigate('/employee/feed');
+      .then(() => navigate('/employer/dashboard'));
   };
 
-  const { profile, exp, desc } = form;
-
   const handleChange = (e) => {
-    setForm({...form , techs : [...form.techs, e.target.value]});
-  }
+    const { value, checked } = e.target;
+    setForm((prevForm) => ({
+      ...prevForm,
+      techs: checked ? [...prevForm.techs, value] : prevForm.techs.filter((tech) => tech !== value),
+    }));
+  };
 
   return (
-    <Paper sx={{ padding:"2%"}} elevation={3}>
-      <Typography sx={{ margin: "3% auto" }} align="center" variant="h5">
-        Create New Post
+    <Paper sx={{ padding: "3%", maxWidth: "600px", margin: "auto" }} elevation={3}>
+      <Typography variant="h5" sx={{ textAlign: "center", marginBottom: "2%" }}>
+        Create New Job Post
       </Typography>
       <form autoComplete="off" noValidate onSubmit={handleSubmit}>
-        <Box
-          sx={{
-            display: "flex",
-            justifyContent: "center",
-            flexDirection: "column",
-          }}
-        >
-          <TextField
-            type="string"
-            sx={{ width: "50%", margin: "2% auto" }}
-            required
-            onChange={(e) => setForm({ ...form, profile: e.target.value })}
-            label="Job-profile"
-            variant="outlined"
-            value={profile}
-          />
-          <TextField
-            min="0"
-            type="number"
-            sx={{ width: "50%", margin: "2% auto" }}
-            required
-            onChange={(e) => setForm({ ...form, exp: e.target.value })}
-            label="Years of Experience"
-            variant="outlined"
-            value={exp}
-          />
-           <TextField
-            type="string"
-            sx={{ width: "50%", margin: "2% auto" }}
-            required
-            multiline
-            rows={4}
-            onChange={(e) => setForm({ ...form, desc: e.target.value })}
-            label="Job-desc"
-            variant="outlined"
-            value={desc}
-          />
-          <Box sx={{ margin:"1% auto"}}>
-          <h3>Please mention required skills</h3>
-         <ul>
-        {skillSet.map(({ name }, index) => {
-          return (
-            <li key={index}>
-              <div >
-                <div>
-                  <input
-                    type="checkbox"
-                    id={`custom-checkbox-${index}`}
-                    name={name}
-                    value={name}
-                    onChange={handleChange}  
-                  />
-                  <label htmlFor={`custom-checkbox-${index}`}>{name}</label>
-                </div>
-              </div>
-            </li>
-          );
-        })}
-       
-      </ul>
-          </Box>
-          <Button
-            sx={{ width: "50%", margin: "2% auto" }}
-            variant="contained"
-            type="submit"
-          >
-            Submit
-          </Button>
-        </Box>
+        <TextField
+          label="Job Profile"
+          variant="outlined"
+          fullWidth
+          required
+          sx={{ marginBottom: "1rem" }}
+          value={form.profile}
+          onChange={(e) => setForm({ ...form, profile: e.target.value })}
+        />
+        <TextField
+          label="Years of Experience"
+          type="number"
+          fullWidth
+          required
+          sx={{ marginBottom: "1rem" }}
+          value={form.exp}
+          onChange={(e) => setForm({ ...form, exp: e.target.value })}
+        />
+        <TextField
+          label="Job Description"
+          variant="outlined"
+          fullWidth
+          required
+          multiline
+          rows={4}
+          sx={{ marginBottom: "1rem" }}
+          value={form.desc}
+          onChange={(e) => setForm({ ...form, desc: e.target.value })}
+        />
+        <Typography sx={{ marginBottom: "1rem" }}>Select Required Skills:</Typography>
+        <FormGroup row sx={{ marginBottom: "1rem" }}>
+          {skillSet.map((skill, index) => (
+            <FormControlLabel
+              key={index}
+              control={<Checkbox value={skill} onChange={handleChange} />}
+              label={skill}
+            />
+          ))}
+        </FormGroup>
+        <Button variant="contained" fullWidth type="submit">
+          Submit
+        </Button>
       </form>
     </Paper>
   );

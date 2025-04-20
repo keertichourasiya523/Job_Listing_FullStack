@@ -1,33 +1,23 @@
 import React from "react";
-import { Typography, Button } from "@mui/material";
+import { Typography, Button, Box } from "@mui/material";
 import { Link } from "react-router-dom";
-import "../App.css"
+import "../App.css";
 
 const Home = () => {
   return (
-    <div>
-      <Typography sx={{ margin:"5%" }} variant="h3" align="center">
-        Get Hired or Hire people for free!
+    <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', height: '100vh', padding: '2%' }}>
+      <Typography variant="h3" sx={{ margin: '2% 0' }} align="center">
+        Get Hired or Hire People for Free!
       </Typography>
-      <div>
-        <ul className="ul">
-          <li>
-          <Button sx={{ margin:"2% 3%"}} variant="outlined">
-            <Link to="/employer/dashboard">
-              Hire talent
-            </Link>
-            </Button>
-          </li>
-          <li>
-          <Button sx={{ margin:"2% 3%"}} variant="outlined">
-            <Link to="/employee/feed">
-              Get Job Now
-            </Link>
-            </Button>
-          </li>
-        </ul>
-      </div>
-    </div>
+      <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', marginTop: '2%' }}>
+        <Button sx={{ margin: '1% 0', width: '200px' }} variant="outlined">
+          <Link to="/employer/dashboard">Hire Talent</Link>
+        </Button>
+        <Button sx={{ margin: '1% 0', width: '200px' }} variant="outlined">
+          <Link to="/employee/feed">Get a Job</Link>
+        </Button>
+      </Box>
+    </Box>
   );
 };
 
